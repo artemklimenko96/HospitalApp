@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="400.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DoctorLayout">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleBtn1" prefHeight="100.0" prefWidth="100.0" text="Patients" />
+            <Button layoutY="100.0" mnemonicParsing="false" onAction="#handleBtn2" prefHeight="100.0" prefWidth="100.0" text="Alerts" />
+            <Button layoutY="200.0" mnemonicParsing="false" onAction="#handleBtn3" prefHeight="100.0" prefWidth="100.0" text="Search" />
+            <Button layoutY="300.0" mnemonicParsing="false" onAction="#handleBtn4" prefHeight="100.0" prefWidth="100.0" text="Alert Staff" />
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>
