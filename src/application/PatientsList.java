@@ -1,6 +1,8 @@
 package application;
 
 import application.model.Patient;
+
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +17,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 public class PatientsList {
 	
 	@FXML private TableView<Patient> patientTable;
@@ -25,7 +33,20 @@ public class PatientsList {
     @FXML private Label genderLabel;
     @FXML private Label ageLabel;
     @FXML private Label problemLabel;
-
+    public ArrayList<Patient> getAllPatients() throws ClassNotFoundException, SQLException {
+        Connection conn = connectionManager.getConnection();
+        Statement stm;
+        stm = conn.createStatement();
+        String sql = "Select * From Patients";
+        ResultSet rst;
+        rst = stm.executeQuery(sql);
+        ArrayList<Patient> patientList = new ArrayList<>();
+        while (rst.next()) {
+            Patient patient = new Patient(rst.getString("name"), rst.getString("lastName"));
+            patientList.add(patient);
+        }
+        return patientList;
+    }
     private ObservableList<Patient> patientData = FXCollections.observableArrayList();
 	
 	public ObservableList<Patient> getPatientData() {
@@ -36,9 +57,10 @@ public class PatientsList {
     private void initialize() {
     	System.out.println("init PatientsList");
     	// Add some sample data
-        patientData.add(new Patient("Jean", "Pierre"));
-        patientData.add(new Patient("Leopoldo", "Zuniga"));
-        patientData.add(new Patient("Werner", "Herzog"));
+        try{
+        patientData.addAll(getAllPatients());
+        }catch (SQLException e ){}
+        catch (ClassNotFoundException f){}
         // Add observable list data to the table
         patientTable.setItems(this.getPatientData());
         // Initialize the person table with the two columns.
