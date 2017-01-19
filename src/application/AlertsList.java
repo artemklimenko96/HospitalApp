@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import static application.model.AlertRoom.getAlertList;
+
 public class AlertsList {
 	
 	@FXML private TableView<AlertRoom> alertRoomTable;
@@ -23,9 +25,10 @@ public class AlertsList {
 	    private void initialize() {
 	    	System.out.println("init AlertsList");
 	    	// Add some sample data
-	        alertRoomData.add(new AlertRoom(12, "Low blood pressure"));
-	        alertRoomData.add(new AlertRoom(123, "High breathing rate"));
-	        // Add observable list data to the table
+		 try {
+			 alertRoomData.addAll(getAlertList());
+		     }catch (Exception e){}
+		 // Add observable list data to the table
 	        alertRoomTable.setItems(this.getAlertRoomData());
 	        // Initialize the alertRoom table with the two columns.
 	        roomNbrColumn.setCellValueFactory(cellData -> cellData.getValue().roomNbrProperty());
