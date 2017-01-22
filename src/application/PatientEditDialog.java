@@ -1,5 +1,8 @@
 package application;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import application.model.Patient;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -17,6 +20,12 @@ public class PatientEditDialog {
     private TextField genderField;
     @FXML
     private TextField ageField;
+    @FXML
+    private TextField birthdayField;
+    @FXML
+    private TextField statusField;
+    @FXML
+    private TextField roomField;
     @FXML
     private TextField problemField;
    
@@ -39,6 +48,16 @@ public class PatientEditDialog {
         lastNameField.setText(patient.getLastName());
         genderField.setText(patient.getGender());
         ageField.setText(Integer.toString(patient.getAge()));
+        String formattedDate = patient.getBirthday().toString();
+		birthdayField.setText(formattedDate);
+		String status;
+		if (patient.getStatus()) status = "Inpatient";
+		else status = "Outpatient";
+		statusField.setText(status);
+		String room;
+		if (patient.getRoom() != null) room = patient.getRoom().toString();
+		else room = "none";
+		roomField.setText(room);
         problemField.setText(patient.getProblem());
     }
     
@@ -53,6 +72,14 @@ public class PatientEditDialog {
             patient.setLastName(lastNameField.getText());
             patient.setGender(genderField.getText());
             patient.setAge(Integer.parseInt(ageField.getText()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate birthday = LocalDate.parse(birthdayField.getText(),formatter);
+            patient.setBirthday(birthday);
+            Boolean status;
+            if (statusField.getText().equals("Inpatient")) status = true;
+            else status = false;
+            patient.setStatus(status);
+            patient.setRoom(Integer.parseInt(roomField.getText()));
             patient.setProblem(problemField.getText());
 
             okClicked = true;
@@ -65,6 +92,7 @@ public class PatientEditDialog {
         dialogStage.close();
     }
     
+    //wip: miss validation for additionnal info
     private boolean isInputValid() {
         String errorMessage = "";
 

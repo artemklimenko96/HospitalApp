@@ -2,15 +2,13 @@ package application.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.scene.control.Alert;
-
-import java.util.ArrayList;
 
 public class AlertStaff {
 	
 	private final StringProperty firstName;
 	private final StringProperty lastName;
     private final StringProperty desc;
+    
     public AlertStaff() {
         this(null, null, null);
     }
@@ -56,6 +54,5 @@ public class AlertStaff {
     public StringProperty descProperty() {
         return desc;
     }
-
 
 }

@@ -2,49 +2,43 @@ package application;
 
 import javafx.fxml.FXML;
 
-public class DoctorLayout {
-	
-	private Main main;
+public class DoctorController {
+
 	private String currentScreen;
 	
 	@FXML
     private void initialize() {
-		//System.out.println(main);
-		//main.showPatientsList();
+		Main.showPatientsList();
+		currentScreen = "patients";
 	}
-	
+
 	@FXML
     private void handleBtn1() {
 		if(currentScreen.equals("patients")) return;
-		this.main.showPatientsList();
+		Main.showPatientsList();
 		currentScreen = "patients";
     }
 	
 	@FXML
     private void handleBtn2() {
 		if(currentScreen.equals("alertsroom")) return;
-       this.main.showAlertsList();
+       Main.showAlertsList();
        currentScreen = "alertsroom";
     }
 	
 	@FXML
     private void handleBtn3() {
 		if(currentScreen.equals("allpatients")) return;
-       this.main.showAllPatientsList();
+       Main.showAllPatientsList();
        currentScreen = "allpatients";
     }
 	
 	@FXML
     private void handleBtn4() {
 		if(currentScreen.equals("alertsstaff")) return;
-       this.main.showAlertsStaff();
+       Main.showAlertsStaff();
        currentScreen = "alertsstaff";
     }
 	
-	public void setMain(Main main) {
-        this.main = main;
-        this.main.showPatientsList();
-        currentScreen = "patients";
-    }
-
+	
 }

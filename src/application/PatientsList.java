@@ -1,8 +1,6 @@
 package application;
 
 import application.model.Patient;
-
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,12 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-
 public class PatientsList {
 	
 	@FXML private TableView<Patient> patientTable;
@@ -32,21 +24,11 @@ public class PatientsList {
     @FXML private Label lastNameLabel;
     @FXML private Label genderLabel;
     @FXML private Label ageLabel;
+    @FXML private Label birthdayLabel;
+    @FXML private Label statusLabel;
+    @FXML private Label roomLabel;
     @FXML private Label problemLabel;
-    public ArrayList<Patient> getAllPatients() throws ClassNotFoundException, SQLException {
-        Connection conn = connectionManager.getConnection();
-        Statement stm;
-        stm = conn.createStatement();
-        String sql = "Select * From Patients";
-        ResultSet rst;
-        rst = stm.executeQuery(sql);
-        ArrayList<Patient> patientList = new ArrayList<>();
-        while (rst.next()) {
-            Patient patient = new Patient(rst.getString("name"), rst.getString("lastName"));
-            patientList.add(patient);
-        }
-        return patientList;
-    }
+
     private ObservableList<Patient> patientData = FXCollections.observableArrayList();
 	
 	public ObservableList<Patient> getPatientData() {
@@ -57,10 +39,9 @@ public class PatientsList {
     private void initialize() {
     	System.out.println("init PatientsList");
     	// Add some sample data
-        try{
-        patientData.addAll(getAllPatients());
-        }catch (SQLException e ){}
-        catch (ClassNotFoundException f){}
+        patientData.add(new Patient("Jean", "Pierre"));
+        patientData.add(new Patient("Leopoldo", "Zuniga"));
+        patientData.add(new Patient("Werner", "Herzog"));
         // Add observable list data to the table
         patientTable.setItems(this.getPatientData());
         // Initialize the person table with the two columns.
@@ -78,12 +59,25 @@ public class PatientsList {
     		lastNameLabel.setText(patient.getLastName());
     		genderLabel.setText(patient.getGender());
     		ageLabel.setText(String.valueOf(patient.getAge()));
+    		String formattedDate = patient.getBirthday().toString();
+    		birthdayLabel.setText(formattedDate);
+    		String status;
+    		if (patient.getStatus()) status = "Inpatient";
+    		else status = "Outpatient";
+    		statusLabel.setText(status);
+    		String room;
+    		if (patient.getRoom() != null) room = patient.getRoom().toString();
+    		else room = "none";
+    		roomLabel.setText(room);
     		problemLabel.setText(patient.getProblem());
     	} else {
     		firstNameLabel.setText("");
     		lastNameLabel.setText("");
     		genderLabel.setText("");
     		ageLabel.setText("");
+    		birthdayLabel.setText("");
+    		statusLabel.setText("");
+    		roomLabel.setText("");
     		problemLabel.setText("");
     	}
     }

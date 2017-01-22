@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AlertsStaff">
    <children>
-      <TableView fx:id="alertStaffTable" prefHeight="350.0" prefWidth="600.0" AnchorPane.bottomAnchor="50.0">
+      <TableView fx:id="alertStaffTable" prefHeight="550.0" prefWidth="800.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
           <TableColumn fx:id="firstNameColumn" minWidth="0.0" prefWidth="100.0" text="First Name" />
             <TableColumn fx:id="lastNameColumn" minWidth="0.0" prefWidth="100.0" text="Last Name" />

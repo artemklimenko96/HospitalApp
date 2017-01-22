@@ -21,6 +21,7 @@ public class Patient {
     private final StringProperty problem;
     private final BooleanProperty status;
     private final IntegerProperty room;
+    private final StringProperty assignedDoctor;
     private final IntegerProperty vitalSignId;
 	
     /**
@@ -48,8 +49,26 @@ public class Patient {
         this.status = new SimpleBooleanProperty(true);
         this.room = new SimpleIntegerProperty(42);
         this.vitalSignId = new SimpleIntegerProperty(1);
+        this.assignedDoctor = new SimpleStringProperty("Doctor Who");
     }
 
+    public Patient(int roomNbr, String firstName, String lastName, String assignedDoctor) {
+
+        this.room = new SimpleIntegerProperty(roomNbr);
+    	this.firstName = new SimpleStringProperty(firstName);
+        this.lastName = new SimpleStringProperty(lastName);
+        this.assignedDoctor = new SimpleStringProperty(assignedDoctor);
+        // Some initial dummy data, just for convenient testing.
+        this.gender = new SimpleStringProperty("man");
+        this.age = new SimpleIntegerProperty(30);
+        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1987, 12, 14));
+        this.problem = new SimpleStringProperty("bla bla bla");
+        this.status = new SimpleBooleanProperty(true);
+        this.vitalSignId = new SimpleIntegerProperty(1);
+    }
+    
+    
+    
     public String getFirstName() {
         return firstName.get();
     }
@@ -121,6 +140,19 @@ public class Patient {
     public StringProperty problemProperty() {
         return problem;
     }
+    
+    public String getAssignedDoctor() {
+        return assignedDoctor.get();
+    }
+
+    public void setAssignedDoctor(String assignedDoctor) {
+        this.assignedDoctor.set(assignedDoctor);
+    }
+
+    public StringProperty assignedDoctorProperty() {
+        return assignedDoctor;
+    }
+    
     
     public Boolean getStatus() {
         return status.get();

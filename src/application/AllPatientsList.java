@@ -28,6 +28,9 @@ public class AllPatientsList {
     @FXML private Label lastNameLabel;
     @FXML private Label genderLabel;
     @FXML private Label ageLabel;
+    @FXML private Label birthdayLabel;
+    @FXML private Label statusLabel;
+    @FXML private Label roomLabel;
     @FXML private Label problemLabel;
 
     private ObservableList<Patient> patientData = FXCollections.observableArrayList();
@@ -69,9 +72,9 @@ public class AllPatientsList {
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (person.getFirstName().toLowerCase().contains(lowerCaseFilter)) {
+                /*if (person.getFirstName().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches first name.
-                } else if (person.getLastName().toLowerCase().contains(lowerCaseFilter)) {
+                } else*/ if (person.getLastName().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
                 }
                 return false; // Does not match.
@@ -94,12 +97,25 @@ public class AllPatientsList {
     		lastNameLabel.setText(patient.getLastName());
     		genderLabel.setText(patient.getGender());
     		ageLabel.setText(String.valueOf(patient.getAge()));
+    		String formattedDate = patient.getBirthday().toString();
+    		birthdayLabel.setText(formattedDate);
+    		String status;
+    		if (patient.getStatus()) status = "Inpatient";
+    		else status = "Outpatient";
+    		statusLabel.setText(status);
+    		String room;
+    		if (patient.getRoom() != null) room = patient.getRoom().toString();
+    		else room = "none";
+    		roomLabel.setText(room);
     		problemLabel.setText(patient.getProblem());
     	} else {
     		firstNameLabel.setText("");
     		lastNameLabel.setText("");
     		genderLabel.setText("");
     		ageLabel.setText("");
+    		birthdayLabel.setText("");
+    		statusLabel.setText("");
+    		roomLabel.setText("");
     		problemLabel.setText("");
     	}
     }
