@@ -18,7 +18,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 public class AllPatientsList {
+    Connection connect = application.connectionManager.getConnection();
+    PreparedStatement pst = null;
+    ResultSet rst = null;
+    String sql = "SELECT * FROM login WHERE username = ? AND password = ?";
 	
 	@FXML private TextField filterField;
 	@FXML private TableView<Patient> patientTable;

@@ -30,7 +30,7 @@ public class AlertsStaff {
 	    	System.out.println("init AlertsStaff");
 	    	// Add some sample data
 	        alertStaffData.add(new AlertStaff("Jean","Bon","do this"));
-	        alertStaffData.add(new AlertStaff("Doc","Tür","do that"));
+	        alertStaffData.add(new AlertStaff("Doc","Tr","do that"));
 	        // Add observable list data to the table
 	        alertStaffTable.setItems(this.getAlertStaffData());
 	        // Initialize the alertRoom table with the two columns.

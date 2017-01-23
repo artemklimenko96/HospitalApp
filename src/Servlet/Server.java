@@ -20,7 +20,7 @@ public class Server {
                     while (client == null) {
                         client = socketListener.accept();
                     }
-                    new ClientThread(client); //Создаем новый поток, которому передаем сокет
+                    //new ClientThread(client); //Creating new thread for each client
                 }
             } catch (SocketException e) {
                 System.err.println("Socket exception");

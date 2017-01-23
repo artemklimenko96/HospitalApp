@@ -1,5 +1,6 @@
 package application;
 
+import application.Connections.LoginConn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,10 +8,20 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 public class LoginController {
-	
-		@FXML
+	Connection connect = application.connectionManager.getConnection();
+	PreparedStatement pst = null;
+	ResultSet rst = null;
+	String sql = "SELECT * FROM login WHERE username = ? AND password = ?";
+	boolean type = false;
+	int docId = 0;
+	@FXML
 	    private TextField username;
 
 	    @FXML
@@ -25,31 +36,50 @@ public class LoginController {
 	    private Main main;
 	    
 	    @FXML protected void handleSubmitButtonAction(ActionEvent event) {
-	        System.out.println("submit");
-	        System.out.println(username.getText() + "/" + password.getText());
+			try{
+				pst = connect.prepareStatement(sql);
+				pst.setString(1, username.getText());
+				pst.setString(2, password.getText());
+				rst = pst.executeQuery();
+				//
+
+
+			if(rst.next()){
+				docId = rst.getInt(1);
+				type = rst.getBoolean(4);
+				if(type){
+				System.out.println("Login as Doctor");
+				Main.setUserClass(true);
+				Main.setCurrentUserName(username.getText());
+				main.initMainLayout();
+				main.initDoctorControls();
+				}else {
+					System.out.println("Login as Staff");
+					Main.setUserClass(false);
+					Main.setCurrentUserName(username.getText());
+					main.initMainLayout();
+					//main.initUserInfo();
+					main.initStaffControls();
+				}
+
+			}
+			else {
+
+				statuslbl.setText("Login failed");
+			}
+			}catch (SQLException e){e.printStackTrace();}
 	        //temporary validation
-	        if(username.getText().equals("a") && password.getText().equals("a")) {
-	        	System.out.println("Login as Doctor");
-	        	Main.setUserClass(true);
-	        	Main.setCurrentUserName(username.getText());
-	        	main.initMainLayout();
-	        	//main.initUserInfo();
-	        	main.initDoctorControls();
-	        }
-	        
-	        if(username.getText().equals("b") && password.getText().equals("b")) {
+
+	       /* if(username.getText().equals("b") && password.getText().equals("b")) {
 	        	System.out.println("Login as Staff");
 	        	Main.setUserClass(false);
 	        	Main.setCurrentUserName(username.getText());
 	        	main.initMainLayout();
 	        	//main.initUserInfo();
 	        	main.initStaffControls();
-	        }
+	        }*/
 	        
-	        else {
-	        	
-	        	statuslbl.setText("Login failed");
-	        }
+
 	    }	
     
 	    public void setMain(Main main) {
