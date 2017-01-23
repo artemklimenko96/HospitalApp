@@ -46,16 +46,19 @@ public class PatientEditDialog {
 
         firstNameField.setText(patient.getFirstName());
         lastNameField.setText(patient.getLastName());
-        genderField.setText(patient.getGender());
+        if (patient.genderProperty().equals(true)){
+            genderField.setText("male");
+        }else{genderField.setText("female");}
+
         ageField.setText(Integer.toString(patient.getAge()));
         String formattedDate = patient.getBirthday().toString();
 		birthdayField.setText(formattedDate);
 		String status;
-		if (patient.getStatus()) status = "Inpatient";
+		if (patient.statusProperty().equals(true)) status = "Inpatient";
 		else status = "Outpatient";
 		statusField.setText(status);
 		String room;
-		if (patient.getRoom() != null) room = patient.getRoom().toString();
+		if (patient.getRoom() != 0) room = patient.roomProperty().getValue().toString();
 		else room = "none";
 		roomField.setText(room);
         problemField.setText(patient.getProblem());
@@ -70,11 +73,13 @@ public class PatientEditDialog {
         if (isInputValid()) {
             patient.setFirstName(firstNameField.getText());
             patient.setLastName(lastNameField.getText());
-            patient.setGender(genderField.getText());
+            if(genderField.getText().equals("male")){
+            patient.setGender(true);
+            }else{patient.setGender(false);}
             patient.setAge(Integer.parseInt(ageField.getText()));
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate birthday = LocalDate.parse(birthdayField.getText(),formatter);
-            patient.setBirthday(birthday);
+          /*  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate birthday = LocalDate.parse(birthdayField.getText(),formatter);*/
+            patient.setBirthday(birthdayField.getText());
             Boolean status;
             if (statusField.getText().equals("Inpatient")) status = true;
             else status = false;

@@ -11,6 +11,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 
+import java.time.LocalDate;
+
 
 public class RoomListController {
 	
@@ -53,14 +55,12 @@ public class RoomListController {
     private void initialize() {
     	System.out.println("init PatientsList");
     	// Add some sample data
-    	roomData.add(new Patient(16, "Jean", "Pierre", "Doctor John"));
-    	roomData.add(new Patient(29, "Leopoldo", "Zuniga", "Doctor Shivago"));
-    	roomData.add(new Patient(4, "Werner", "Herzog", "Doctor Stevensen"));
-    	roomData.add(new Patient(11, "Marie", "Le Pen", "Doctor Death"));
+    	//roomData.add(new Patient("Jean", "Pierre",true,20, LocalDate.now(), "str", true, 5, 5,8,8,8,8,8 ));
+
         // Add observable list data to the table
     	roomTable.setItems(this.getPatientData());
         // Initialize the person table with the two columns.
-    	roomColumn.setCellValueFactory(cellData -> cellData.getValue().roomProperty());
+    //	roomColumn.setCellValueFactory(cellData -> cellData.getValue().roomProperty());
     	firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
         //Clear person details.
@@ -73,12 +73,12 @@ public class RoomListController {
     	if(patient != null) {
     		firstnamelbl.setText(patient.getFirstName());
     		lastnamelbl.setText(patient.getLastName());
-    		genderlbl.setText(patient.getGender());
+    		//genderlbl.setText(patient.getGender());
 
-    		String formattedDate = patient.getBirthday().toString();
-    		dateOfBirthlbl.setText(formattedDate);
+    		//String formattedDate = patient.getBirthday().toString();
+    		//dateOfBirthlbl.setText(formattedDate);
 
-    		doctorlbl.setText(patient.getAssignedDoctor());
+    		//doctorlbl.setText(patient.getAssignedDoctor());
     		
     	} else {
     		firstnamelbl.setText("");

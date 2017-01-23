@@ -15,6 +15,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class PatientsList {
 	
 	@FXML private TableView<Patient> patientTable;
@@ -28,20 +35,49 @@ public class PatientsList {
     @FXML private Label statusLabel;
     @FXML private Label roomLabel;
     @FXML private Label problemLabel;
+    @FXML private Label bloodPressure;
+    @FXML private Label breathRate;
+    @FXML private Label pulse;
+    @FXML private Label bodyTemp;
 
     private ObservableList<Patient> patientData = FXCollections.observableArrayList();
 	
 	public ObservableList<Patient> getPatientData() {
         return patientData;
     }
-
+    public ArrayList<Patient> getAllPatients() throws ClassNotFoundException, SQLException {
+        Connection conn = application.connectionManager.getConnection();
+        Statement stm;
+        stm = conn.createStatement();
+        String sql = "Select * From patient";
+        ResultSet rst;
+        rst = stm.executeQuery(sql);
+        ArrayList<Patient> patientList = new ArrayList<>();
+        while (rst.next()) {
+            Patient patient = new Patient(rst.getInt("id"), rst.getString("firstName"), rst.getString("lastName"), rst.getBoolean("gender"), rst.getInt("age"), rst.getString("birthday"), rst.getString("problem"), rst.getBoolean("status"), rst.getInt("room"),rst.getInt("assignedDoctor"), rst.getInt("vitalSignId"), rst.getInt("bloodPressure"), rst.getInt("breathRate"), rst.getInt("pulse"), rst.getInt("bodyTemp"));
+            patientList.add(patient);
+           // patientData.add(patient);
+            System.out.println(patient.getFirstName());
+        }
+        return patientList;
+    }
     @FXML
     private void initialize() {
     	System.out.println("init PatientsList");
     	// Add some sample data
-        patientData.add(new Patient("Jean", "Pierre"));
-        patientData.add(new Patient("Leopoldo", "Zuniga"));
-        patientData.add(new Patient("Werner", "Herzog"));
+        try {
+            ArrayList<Patient> patient = getAllPatients();
+            for (Patient p:patient) {
+                if(p.getAssignedDoctor() == LoginController.sessionId)
+                patientData.add(p);
+                System.out.println(p.getAge());
+            }
+
+
+            }catch (Exception e){e.printStackTrace();}
+
+       //patientData.add(new Patient(2, "Jean", "Pierre",true,20, "30-09-96", "str", true, 5, 5,8,8,8,8,8 ));
+
         // Add observable list data to the table
         patientTable.setItems(this.getPatientData());
         // Initialize the person table with the two columns.
@@ -57,19 +93,26 @@ public class PatientsList {
     	if(patient != null) {
     		firstNameLabel.setText(patient.getFirstName());
     		lastNameLabel.setText(patient.getLastName());
-    		genderLabel.setText(patient.getGender());
-    		ageLabel.setText(String.valueOf(patient.getAge()));
-    		String formattedDate = patient.getBirthday().toString();
-    		birthdayLabel.setText(formattedDate);
-    		String status;
-    		if (patient.getStatus()) status = "Inpatient";
-    		else status = "Outpatient";
-    		statusLabel.setText(status);
-    		String room;
-    		if (patient.getRoom() != null) room = patient.getRoom().toString();
-    		else room = "none";
-    		roomLabel.setText(room);
-    		problemLabel.setText(patient.getProblem());
+            if(patient.genderProperty().equals(true)){
+    		genderLabel.setText("male");
+            }else {genderLabel.setText("female");}
+    	ageLabel.setText(String.valueOf(patient.getAge()));
+            birthdayLabel.setText(patient.getBirthday());
+
+    		if (patient.statusProperty().equals(true)){
+                statusLabel.setText("Inpatient");
+            } else {statusLabel.setText("Outpatient");}
+
+
+    		if (!patient.roomProperty().equals(null)) {
+                roomLabel.setText(patient.roomProperty().toString());
+    		}else {roomLabel.setText("N/A");}
+            bloodPressure.setText(String.valueOf(patient.getBloodPressure()));
+            breathRate.setText(String.valueOf(patient.getBreathRate()));
+            pulse.setText(String.valueOf(patient.getPulse()));
+            bodyTemp.setText(String.valueOf(patient.getBodyTemp()));
+
+    	problemLabel.setText(patient.getProblem());
     	} else {
     		firstNameLabel.setText("");
     		lastNameLabel.setText("");
@@ -111,7 +154,7 @@ public class PatientsList {
             return false;
         }
     }
-    
+
     @FXML
     private void handleNewPatient() {
         Patient tempPatient = new Patient();

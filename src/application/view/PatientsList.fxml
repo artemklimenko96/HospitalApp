@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PatientsList">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PatientsList">
    <children>
       <SplitPane dividerPositions="0.5" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -99,11 +99,11 @@
                                     <Label text="Blood pressure" />
                                     <Label text="Rate of breathing" GridPane.rowIndex="1" />
                                     <Label text="Pulse rate" GridPane.rowIndex="2" />
-                                    <Label text="Label" GridPane.columnIndex="1" />
-                                    <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="bloodPressure" text="Label" GridPane.columnIndex="1" />
+                                    <Label fx:id="breathRate" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="pulse" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <Label text="Body temperature" GridPane.rowIndex="3" />
-                                    <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label fx:id="bodyTemp" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children>

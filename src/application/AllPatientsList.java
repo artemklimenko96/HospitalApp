@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public class AllPatientsList {
     Connection connect = application.connectionManager.getConnection();
@@ -51,12 +52,8 @@ public class AllPatientsList {
     private void initialize() {
     	System.out.println("init AllPatientsList");
     	// Add some sample data
-    	patientData.add(new Patient("Jean", "Pierre"));
-        patientData.add(new Patient("Leopoldo", "Zuniga"));
-        patientData.add(new Patient("Werner", "Herzog"));
-        patientData.add(new Patient("Christopher", "Nkunku"));
-        patientData.add(new Patient("Adrien", "Rabiot"));
-        patientData.add(new Patient("Lorenzo", "Callegari"));
+        //patientData.add(new Patient("Jean", "Pierre",true,20, LocalDate.now(), "str", true, 5, 5,8,8,8,8,8 ));
+
         // Add observable list data to the table
         patientTable.setItems(this.getPatientData());
         // Initialize the person table with the two columns.
@@ -103,19 +100,19 @@ public class AllPatientsList {
     	if(patient != null) {
     		firstNameLabel.setText(patient.getFirstName());
     		lastNameLabel.setText(patient.getLastName());
-    		genderLabel.setText(patient.getGender());
-    		ageLabel.setText(String.valueOf(patient.getAge()));
-    		String formattedDate = patient.getBirthday().toString();
-    		birthdayLabel.setText(formattedDate);
+    		//genderLabel.setText(patient.getGender());
+    	//	ageLabel.setText(String.valueOf(patient.getAge()));
+    	//	String formattedDate = patient.getBirthday().toString();
+    	//	birthdayLabel.setText(formattedDate);
     		String status;
-    		if (patient.getStatus()) status = "Inpatient";
-    		else status = "Outpatient";
-    		statusLabel.setText(status);
+    		//if (patient.getStatus()) status = "Inpatient";
+    		//else status = "Outpatient";
+    		//statusLabel.setText(status);
     		String room;
-    		if (patient.getRoom() != null) room = patient.getRoom().toString();
-    		else room = "none";
-    		roomLabel.setText(room);
-    		problemLabel.setText(patient.getProblem());
+    		//if (patient.getRoom() != null) room = patient.getRoom().toString();
+    	//	else room = "none";
+    		//roomLabel.setText(room);
+    	//	problemLabel.setText(patient.getProblem());
     	} else {
     		firstNameLabel.setText("");
     		lastNameLabel.setText("");
@@ -157,15 +154,15 @@ public class AllPatientsList {
             return false;
         }
     }
-    
+  /*
     @FXML
     private void handleNewPatient() {
-        Patient tempPatient = new Patient();
+       // Patient tempPatient = new Patient();
         boolean okClicked = showPatientEditDialog(tempPatient);
         if (okClicked) {
             this.getPatientData().add(tempPatient);
         }
-    }
+    }*/
     
     @FXML
     private void handleEditPatient() {

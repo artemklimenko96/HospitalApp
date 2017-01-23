@@ -12,182 +12,230 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Patient {
-	
-	private final StringProperty firstName;
-    private final StringProperty lastName;
-    private final StringProperty gender;
-    private final IntegerProperty age;
-    private final ObjectProperty<LocalDate> birthday;
-    private final StringProperty problem;
-    private final BooleanProperty status;
-    private final IntegerProperty room;
-    private final StringProperty assignedDoctor;
-    private final IntegerProperty vitalSignId;
-	
-    /**
-     * Default constructor.
-     */
-    public Patient() {
-        this(null, null);
-    }
+        private  SimpleIntegerProperty id;
+        private  StringProperty firstName;
+        private  StringProperty lastName;
+        private  SimpleBooleanProperty gender;
+        private  SimpleIntegerProperty age;
+        private  SimpleStringProperty birthday;
+        private  StringProperty problem;
+        private  SimpleBooleanProperty status;
+        private  SimpleIntegerProperty room;
+        private  SimpleIntegerProperty assignedDoctor;
+        private  SimpleIntegerProperty vitalSignId;
+        private  SimpleIntegerProperty bloodPressure;
+        private  SimpleIntegerProperty breathRate;
+        private  SimpleIntegerProperty pulse;
+        private  SimpleIntegerProperty bodyTemp;
 
-    /**
-     * Constructor with some initial data.
-     * 
-     * @param firstName
-     * @param lastName
-     */
     public Patient(String firstName, String lastName) {
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
-
-        // Some initial dummy data, just for convenient testing.
-        this.gender = new SimpleStringProperty("man");
-        this.age = new SimpleIntegerProperty(30);
-        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1987, 12, 14));
-        this.problem = new SimpleStringProperty("bla bla bla");
-        this.status = new SimpleBooleanProperty(true);
-        this.room = new SimpleIntegerProperty(42);
-        this.vitalSignId = new SimpleIntegerProperty(1);
-        this.assignedDoctor = new SimpleStringProperty("Doctor Who");
     }
 
-    public Patient(int roomNbr, String firstName, String lastName, String assignedDoctor) {
+    /**
+         * Default constructor.
+         */
+public Patient(){
 
-        this.room = new SimpleIntegerProperty(roomNbr);
-    	this.firstName = new SimpleStringProperty(firstName);
-        this.lastName = new SimpleStringProperty(lastName);
-        this.assignedDoctor = new SimpleStringProperty(assignedDoctor);
-        // Some initial dummy data, just for convenient testing.
-        this.gender = new SimpleStringProperty("man");
-        this.age = new SimpleIntegerProperty(30);
-        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1987, 12, 14));
-        this.problem = new SimpleStringProperty("bla bla bla");
-        this.status = new SimpleBooleanProperty(true);
-        this.vitalSignId = new SimpleIntegerProperty(1);
+}
+
+        public Patient(int id, String firstName, String lastName, Boolean gender, int age, String birthday, String problem, Boolean status, int room, int assignedDoctor, int vitalSignId, int bloodPressure, int breathRate, int pulse, int bodyTemp) {
+            this.id = new SimpleIntegerProperty(id);
+            this.firstName = new SimpleStringProperty(firstName);
+            this.lastName = new SimpleStringProperty(lastName);
+            this.gender = new SimpleBooleanProperty(gender);
+            this.age = new SimpleIntegerProperty(age);
+            this.birthday = new SimpleStringProperty(birthday);
+            this.problem = new SimpleStringProperty(problem);
+            this.status = new SimpleBooleanProperty(status);
+            this.room = new SimpleIntegerProperty(room);
+            this.assignedDoctor = new SimpleIntegerProperty(assignedDoctor);
+            this.vitalSignId = new SimpleIntegerProperty(vitalSignId);
+            this.bloodPressure = new SimpleIntegerProperty(bloodPressure);
+            this.breathRate = new SimpleIntegerProperty(breathRate);
+            this.pulse = new SimpleIntegerProperty(pulse);
+            this.bodyTemp = new SimpleIntegerProperty(bodyTemp);
+        }
+
+    public int getId() {
+        return id.get();
     }
-    
-    
-    
+
+    public SimpleIntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
     public String getFirstName() {
         return firstName.get();
+    }
+
+    public StringProperty firstNameProperty() {
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName.set(firstName);
     }
 
-    public StringProperty firstNameProperty() {
-        return firstName;
-    }
-    
     public String getLastName() {
         return lastName.get();
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName.set(lastName);
     }
 
     public StringProperty lastNameProperty() {
         return lastName;
     }
 
-	public String getGender() {
-		return gender.get();
-	}
-	
-	public void setGender(String gender) {
+    public void setLastName(String lastName) {
+        this.lastName.set(lastName);
+    }
+
+    public boolean isGender() {
+        return gender.get();
+    }
+
+    public SimpleBooleanProperty genderProperty() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
         this.gender.set(gender);
     }
 
-    public StringProperty genderProperty() {
-        return gender;
+    public int getAge() {
+        return age.get();
     }
-    
-    public Integer getAge() {
-		return age.get();
-	}
-	
-	public void setAge(Integer age) {
+
+    public SimpleIntegerProperty ageProperty() {
+        return age;
+    }
+
+    public void setAge(int age) {
         this.age.set(age);
     }
 
-    public IntegerProperty ageProperty() {
-        return age;
+    public String getBirthday() {
+        return birthday.get();
     }
-    
-    public LocalDate getBirthday() {
-		return birthday.get();
-	}
-	
-	public void setBirthday(LocalDate birthday) {
+
+    public SimpleStringProperty birthdayProperty() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
         this.birthday.set(birthday);
     }
 
-    public ObjectProperty<LocalDate> birthdayProperty() {
-        return birthday;
-    }
-    
     public String getProblem() {
         return problem.get();
+    }
+
+    public StringProperty problemProperty() {
+        return problem;
     }
 
     public void setProblem(String problem) {
         this.problem.set(problem);
     }
 
-    public StringProperty problemProperty() {
-        return problem;
-    }
-    
-    public String getAssignedDoctor() {
-        return assignedDoctor.get();
-    }
 
-    public void setAssignedDoctor(String assignedDoctor) {
-        this.assignedDoctor.set(assignedDoctor);
-    }
-
-    public StringProperty assignedDoctorProperty() {
-        return assignedDoctor;
-    }
-    
-    
-    public Boolean getStatus() {
+    public boolean isStatus() {
         return status.get();
     }
 
-    public void setStatus(Boolean status) {
+    public SimpleBooleanProperty statusProperty() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
         this.status.set(status);
     }
 
-    public BooleanProperty statusProperty() {
-        return status;
+    public int getRoom() {
+        return room.get();
     }
-    
-    public Integer getRoom() {
-		return room.get();
-	}
-	
-	public void setRoom(Integer room) {
+
+    public SimpleIntegerProperty roomProperty() {
+        return room;
+    }
+
+    public void setRoom(int room) {
         this.room.set(room);
     }
 
-    public IntegerProperty roomProperty() {
-        return room;
+    public int getAssignedDoctor() {
+        return assignedDoctor.get();
     }
-    
-    public Integer getVitalSignId() {
-		return vitalSignId.get();
-	}
-	
-	public void setVitalSignId(Integer vitalSignId) {
+
+    public SimpleIntegerProperty assignedDoctorProperty() {
+        return assignedDoctor;
+    }
+
+    public void setAssignedDoctor(int assignedDoctor) {
+        this.assignedDoctor.set(assignedDoctor);
+    }
+
+    public int getVitalSignId() {
+        return vitalSignId.get();
+    }
+
+    public SimpleIntegerProperty vitalSignIdProperty() {
+        return vitalSignId;
+    }
+
+    public void setVitalSignId(int vitalSignId) {
         this.vitalSignId.set(vitalSignId);
     }
 
-    public IntegerProperty vitalSignIdProperty() {
-        return vitalSignId;
+    public int getBloodPressure() {
+        return bloodPressure.get();
     }
-    
+
+    public SimpleIntegerProperty bloodPressureProperty() {
+        return bloodPressure;
+    }
+
+    public void setBloodPressure(int bloodPressure) {
+        this.bloodPressure.set(bloodPressure);
+    }
+
+    public int getBreathRate() {
+        return breathRate.get();
+    }
+
+    public SimpleIntegerProperty breathRateProperty() {
+        return breathRate;
+    }
+
+    public void setBreathRate(int breathRate) {
+        this.breathRate.set(breathRate);
+    }
+
+    public int getPulse() {
+        return pulse.get();
+    }
+
+    public SimpleIntegerProperty pulseProperty() {
+        return pulse;
+    }
+
+    public void setPulse(int pulse) {
+        this.pulse.set(pulse);
+    }
+
+    public int getBodyTemp() {
+        return bodyTemp.get();
+    }
+
+    public SimpleIntegerProperty bodyTempProperty() {
+        return bodyTemp;
+    }
+
+    public void setBodyTemp(int bodyTemp) {
+        this.bodyTemp.set(bodyTemp);
+    }
 }

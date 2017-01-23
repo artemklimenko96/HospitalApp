@@ -21,6 +21,7 @@ public class LoginController {
 	String sql = "SELECT * FROM login WHERE username = ? AND password = ?";
 	boolean type = false;
 	int docId = 0;
+	public static int sessionId;
 	@FXML
 	    private TextField username;
 
@@ -46,6 +47,7 @@ public class LoginController {
 
 			if(rst.next()){
 				docId = rst.getInt(1);
+				sessionId = docId;
 				type = rst.getBoolean(4);
 				if(type){
 				System.out.println("Login as Doctor");
@@ -80,9 +82,17 @@ public class LoginController {
 	        }*/
 	        
 
-	    }	
-    
-	    public void setMain(Main main) {
+	    }
+
+	public int getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(int sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	public void setMain(Main main) {
 	        this.main = main;
 	    }
 
