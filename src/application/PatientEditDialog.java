@@ -123,17 +123,17 @@ if(addUp){
         else{
     try{
 
-        PreparedStatement sql = conn.prepareStatement("INSERT INTO patient (id, firstName, lastName, gender, age, bithday, problem, status, room,assignedDoctor, vitalSignId, bloodPressure, breathRate, pulse, bodyTemp) VALUES (36,?,?,?,?,?,?,?,?,25,11,25,55,77,12");
+        PreparedStatement sql = conn.prepareStatement("INSERT INTO patient (id, firstName, lastName, gender, age, birthday, problem, status, room, assignedDoctor, vitalSignId, bloodPressure, breathRate, pulse, bodyTemp) VALUES (36,'asf','asff',true,55,'sfaf','afsfff',true,32,25,11,25,55,77,12)");
 
 //need to add id after all
-        sql.setString(1, patient.getFirstName());
+      /*  sql.setString(1, patient.getFirstName());
         sql.setString(2, patient.getLastName());
         sql.setString(3, String.valueOf(gend) );
         sql.setString(4, String.valueOf(patient.getAge()));
         sql.setString(5, patient.getBirthday());
         sql.setString(7,String.valueOf(stat));
         sql.setString(8, String.valueOf(patient.getRoom()));
-        sql.setString(6, patient.getProblem());
+        sql.setString(6, patient.getProblem());*/
 
         System.out.println(sql);
       sql.executeUpdate();
