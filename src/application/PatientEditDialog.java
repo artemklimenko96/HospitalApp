@@ -32,7 +32,7 @@ public class PatientEditDialog {
     private TextField roomField;
     @FXML
     private TextField problemField;
-   
+   public static Boolean addUp = false;
     private Stage dialogStage;
     private Patient patient;
     private boolean okClicked = false;
@@ -50,7 +50,7 @@ public class PatientEditDialog {
 
         firstNameField.setText(patient.getFirstName());
         lastNameField.setText(patient.getLastName());
-        if (patient.genderProperty().equals("male")){
+        if (patient.genderProperty().equals("male") || patient.genderProperty().equals(0)){
             genderField.setText("male");
         }else{genderField.setText("female");}
 
@@ -71,7 +71,7 @@ public class PatientEditDialog {
     public boolean isOkClicked() {
         return okClicked;
     }
-    
+
     @FXML
     private void handleOk() {
         if (isInputValid()) {
@@ -96,9 +96,9 @@ public class PatientEditDialog {
             //connection code
             Connection conn = application.connectionManager.getConnection();
             ResultSet rst = null;
-            PreparedStatement pst;
+            Statement stmt;
 
-
+if(addUp){
             try{
 
                 PreparedStatement sql = conn.prepareStatement("UPDATE patient SET firstName = ?, lastName = ?, gender = ?, age = ?, birthday = ?, status = ?, room = ?, problem = ? WHERE id = ?");
@@ -120,6 +120,30 @@ public class PatientEditDialog {
             dialogStage.close();
 
         }
+        else{
+    try{
+
+        PreparedStatement sql = conn.prepareStatement("INSERT INTO patient (id, firstName, lastName, gender, age, bithday, problem, status, room,assignedDoctor, vitalSignId, bloodPressure, breathRate, pulse, bodyTemp) VALUES (36,?,?,?,?,?,?,?,?,25,11,25,55,77,12");
+
+//need to add id after all
+        sql.setString(1, patient.getFirstName());
+        sql.setString(2, patient.getLastName());
+        sql.setString(3, String.valueOf(gend) );
+        sql.setString(4, String.valueOf(patient.getAge()));
+        sql.setString(5, patient.getBirthday());
+        sql.setString(7,String.valueOf(stat));
+        sql.setString(8, String.valueOf(patient.getRoom()));
+        sql.setString(6, patient.getProblem());
+
+        System.out.println(sql);
+      sql.executeUpdate();
+
+    }catch (Exception e){e.printStackTrace();}
+    okClicked = true;
+    dialogStage.close();
+        }
+        }
+
     }
     
     @FXML

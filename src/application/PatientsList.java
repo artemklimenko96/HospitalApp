@@ -105,7 +105,7 @@ public class PatientsList {
 
 
     		if (!patient.roomProperty().equals(null)) {
-                roomLabel.setText(patient.roomProperty().toString());
+                roomLabel.setText(String.valueOf(patient.getRoom()));
     		}else {roomLabel.setText("N/A");}
             bloodPressure.setText(String.valueOf(patient.getBloodPressure()));
             breathRate.setText(String.valueOf(patient.getBreathRate()));
@@ -154,11 +154,42 @@ public class PatientsList {
             return false;
         }
     }
+    public boolean showPatientAddDialog(Patient patient) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PatientsList.class.getResource("view/PatientEditDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add Person");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            //dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            PatientEditDialog controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setPatient(patient);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     @FXML
     private void handleNewPatient() {
-        Patient tempPatient = new Patient();
-        boolean okClicked = showPatientEditDialog(tempPatient);
+        PatientEditDialog.addUp = false;
+        Patient tempPatient = new Patient(144, "love", "hate", true,44,"ssf","asfaf",true,44,44,44,44,44,44,44);
+
+        boolean okClicked = showPatientAddDialog(tempPatient);
         if (okClicked) {
             this.getPatientData().add(tempPatient);
         }
@@ -166,6 +197,7 @@ public class PatientsList {
     
     @FXML
     private void handleEditPatient() {
+        PatientEditDialog.addUp = true;
         Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
         if (selectedPatient != null) {
             boolean okClicked = showPatientEditDialog(selectedPatient);

@@ -36,9 +36,10 @@ public class Patient {
     /**
          * Default constructor.
          */
-public Patient(){
 
-}
+    public Patient(){
+        // this(0, null,null, null,0, null,null, null,0, 0,0, 0, 0, 0, 0 );
+    }
 
         public Patient(int id, String firstName, String lastName, Boolean gender, int age, String birthday, String problem, Boolean status, int room, int assignedDoctor, int vitalSignId, int bloodPressure, int breathRate, int pulse, int bodyTemp) {
             this.id = new SimpleIntegerProperty(id);
