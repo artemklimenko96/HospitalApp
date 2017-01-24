@@ -11,7 +11,7 @@ public class MainController {
 	
 	@FXML Label userLabel;
 	@FXML Label timeLabel;
-	
+
 	
 	@FXML
     private void initialize() {

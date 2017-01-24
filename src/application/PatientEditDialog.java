@@ -1,5 +1,9 @@
 package application;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -46,7 +50,7 @@ public class PatientEditDialog {
 
         firstNameField.setText(patient.getFirstName());
         lastNameField.setText(patient.getLastName());
-        if (patient.genderProperty().equals(true)){
+        if (patient.genderProperty().equals("male")){
             genderField.setText("male");
         }else{genderField.setText("female");}
 
@@ -71,24 +75,50 @@ public class PatientEditDialog {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
+            int gend;
+            int stat;
             patient.setFirstName(firstNameField.getText());
             patient.setLastName(lastNameField.getText());
             if(genderField.getText().equals("male")){
             patient.setGender(true);
-            }else{patient.setGender(false);}
+                gend = 1;
+            }else{patient.setGender(false);gend = 0;}
             patient.setAge(Integer.parseInt(ageField.getText()));
           /*  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate birthday = LocalDate.parse(birthdayField.getText(),formatter);*/
             patient.setBirthday(birthdayField.getText());
             Boolean status;
-            if (statusField.getText().equals("Inpatient")) status = true;
-            else status = false;
+            if (statusField.getText().equals("Inpatient")) {status = true; stat = 1;}
+            else {status = false;stat = 0;}
             patient.setStatus(status);
             patient.setRoom(Integer.parseInt(roomField.getText()));
             patient.setProblem(problemField.getText());
+            //connection code
+            Connection conn = application.connectionManager.getConnection();
+            ResultSet rst = null;
+            PreparedStatement pst;
 
+
+            try{
+
+                PreparedStatement sql = conn.prepareStatement("UPDATE patient SET firstName = ?, lastName = ?, gender = ?, age = ?, birthday = ?, status = ?, room = ?, problem = ? WHERE id = ?");
+
+                sql.setString(1, patient.getFirstName());
+                sql.setString(2, patient.getLastName());
+                sql.setString(3, String.valueOf(gend) );
+                sql.setString(4, String.valueOf(patient.getAge()));
+                sql.setString(5, patient.getBirthday());
+                sql.setString(6,String.valueOf(stat));
+                sql.setString(7, String.valueOf(patient.getRoom()));
+                sql.setString(8, patient.getProblem());
+                sql.setString(9, String.valueOf(patient.getId()));
+                System.out.println(sql);
+                 sql.executeUpdate();
+
+            }catch (Exception e){e.printStackTrace();}
             okClicked = true;
             dialogStage.close();
+
         }
     }
     
