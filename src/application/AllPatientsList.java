@@ -18,10 +18,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class AllPatientsList {
     Connection connect = application.connectionManager.getConnection();
@@ -41,19 +40,46 @@ public class AllPatientsList {
     @FXML private Label statusLabel;
     @FXML private Label roomLabel;
     @FXML private Label problemLabel;
+    @FXML private Label bloodPressure;
+    @FXML private Label breathRate;
+    @FXML private Label pulse;
+    @FXML private Label bodyTemp;
+
 
     private ObservableList<Patient> patientData = FXCollections.observableArrayList();
 	
 	public ObservableList<Patient> getPatientData() {
         return patientData;
     }
-
+    public ArrayList<Patient> getAllPatients() throws ClassNotFoundException, SQLException {
+        Connection conn = application.connectionManager.getConnection();
+        Statement stm;
+        stm = conn.createStatement();
+        String sql = "Select * From patient";
+        ResultSet rst;
+        rst = stm.executeQuery(sql);
+        ArrayList<Patient> patientList = new ArrayList<>();
+        while (rst.next()) {
+            Patient patient = new Patient(rst.getInt("id"), rst.getString("firstName"), rst.getString("lastName"), rst.getBoolean("gender"), rst.getInt("age"), rst.getString("birthday"), rst.getString("problem"), rst.getBoolean("status"), rst.getInt("room"),rst.getInt("assignedDoctor"), rst.getInt("vitalSignId"), rst.getInt("bloodPressure"), rst.getInt("breathRate"), rst.getInt("pulse"), rst.getInt("bodyTemp"));
+            patientList.add(patient);
+            // patientData.add(patient);
+            System.out.println(patient.getFirstName());
+        }
+        return patientList;
+    }
     @FXML
     private void initialize() {
     	System.out.println("init AllPatientsList");
     	// Add some sample data
         //patientData.add(new Patient("Jean", "Pierre",true,20, LocalDate.now(), "str", true, 5, 5,8,8,8,8,8 ));
+        try {
+            ArrayList<Patient> patient = getAllPatients();
+            for (Patient p:patient) {
+                    patientData.add(p);
+            }
 
+
+        }catch (Exception e){e.printStackTrace();}
         // Add observable list data to the table
         patientTable.setItems(this.getPatientData());
         // Initialize the person table with the two columns.
@@ -86,7 +112,7 @@ public class AllPatientsList {
             });
         });
 
-        // 3. Wrap the FilteredList in a SortedList. 
+        // 3. Wrap the FilteredList in a SortedList.
         SortedList<Patient> sortedData = new SortedList<>(filteredData);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
@@ -95,34 +121,41 @@ public class AllPatientsList {
         // 5. Add sorted (and filtered) data to the table.
         patientTable.setItems(sortedData);
     }
-    
+
     private void showPatientDetails(Patient patient) {
-    	if(patient != null) {
-    		firstNameLabel.setText(patient.getFirstName());
-    		lastNameLabel.setText(patient.getLastName());
-    		//genderLabel.setText(patient.getGender());
-    	//	ageLabel.setText(String.valueOf(patient.getAge()));
-    	//	String formattedDate = patient.getBirthday().toString();
-    	//	birthdayLabel.setText(formattedDate);
-    		String status;
-    		//if (patient.getStatus()) status = "Inpatient";
-    		//else status = "Outpatient";
-    		//statusLabel.setText(status);
-    		String room;
-    		//if (patient.getRoom() != null) room = patient.getRoom().toString();
-    	//	else room = "none";
-    		//roomLabel.setText(room);
-    	//	problemLabel.setText(patient.getProblem());
-    	} else {
-    		firstNameLabel.setText("");
-    		lastNameLabel.setText("");
-    		genderLabel.setText("");
-    		ageLabel.setText("");
-    		birthdayLabel.setText("");
-    		statusLabel.setText("");
-    		roomLabel.setText("");
-    		problemLabel.setText("");
-    	}
+        if(patient != null) {
+            firstNameLabel.setText(patient.getFirstName());
+            lastNameLabel.setText(patient.getLastName());
+            if(patient.genderProperty().equals(true)){
+                genderLabel.setText("male");
+            }else {genderLabel.setText("female");}
+            ageLabel.setText(String.valueOf(patient.getAge()));
+            birthdayLabel.setText(patient.getBirthday());
+
+            if (patient.statusProperty().equals(true)){
+                statusLabel.setText("Inpatient");
+            } else {statusLabel.setText("Outpatient");}
+
+
+            if (!patient.roomProperty().equals(null)) {
+                roomLabel.setText(String.valueOf(patient.getRoom()));
+            }else {roomLabel.setText("N/A");}
+            bloodPressure.setText(String.valueOf(patient.getBloodPressure()));
+            breathRate.setText(String.valueOf(patient.getBreathRate()));
+            pulse.setText(String.valueOf(patient.getPulse()));
+            bodyTemp.setText(String.valueOf(patient.getBodyTemp()));
+
+            problemLabel.setText(patient.getProblem());
+        } else {
+            firstNameLabel.setText("");
+            lastNameLabel.setText("");
+            genderLabel.setText("");
+            ageLabel.setText("");
+            birthdayLabel.setText("");
+            statusLabel.setText("");
+            roomLabel.setText("");
+            problemLabel.setText("");
+        }
     }
     
     public boolean showPatientEditDialog(Patient patient) {
@@ -154,18 +187,49 @@ public class AllPatientsList {
             return false;
         }
     }
-  /*
-    @FXML
-    private void handleNewPatient() {
-       // Patient tempPatient = new Patient();
-        boolean okClicked = showPatientEditDialog(tempPatient);
-        if (okClicked) {
-            this.getPatientData().add(tempPatient);
+    public boolean showPatientAddDialog(Patient patient) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PatientsList.class.getResource("view/PatientEditDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add Person");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            //dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            PatientEditDialog controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setPatient(patient);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-    }*/
+    }
+   @FXML
+    private void handleNewPatient() {
+       PatientEditDialog.addUp = false;
+       Patient tempPatient = new Patient(144, "name", "family name", true,1,"birthday","problem",true,0,0,0,0,0,0,0);
+
+       boolean okClicked = showPatientAddDialog(tempPatient);
+       if (okClicked) {
+           this.getPatientData().add(tempPatient);
+       }
+   }
     
     @FXML
     private void handleEditPatient() {
+        PatientEditDialog.addUp = true;
         Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
         if (selectedPatient != null) {
             boolean okClicked = showPatientEditDialog(selectedPatient);

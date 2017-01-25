@@ -187,7 +187,7 @@ public class PatientsList {
     @FXML
     private void handleNewPatient() {
         PatientEditDialog.addUp = false;
-        Patient tempPatient = new Patient(144, "love", "hate", true,44,"ssf","asfaf",true,44,44,44,44,44,44,44);
+        Patient tempPatient = new Patient(144, "name", "family name", true,1,"birthday","problem",true,0,0,0,0,0,0,0);
 
         boolean okClicked = showPatientAddDialog(tempPatient);
         if (okClicked) {

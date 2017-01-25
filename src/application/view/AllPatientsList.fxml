@@ -103,10 +103,10 @@
                                     <Label text="Rate of breathing" GridPane.rowIndex="1" />
                                     <Label text="Pulse rate" GridPane.rowIndex="2" />
                                     <Label text="Body temperature" GridPane.rowIndex="3" />
-                                    <Label text="Label" GridPane.columnIndex="1" />
-                                    <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label fx:id="bloodPressure" text="Label" GridPane.columnIndex="1" />
+                                    <Label fx:id="breathRate" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="pulse" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="bodyTemp" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                            </children>
